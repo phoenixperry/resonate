@@ -5,6 +5,10 @@
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
 
+
+char val; // Data received from the serial port
+int ledPin = 13; // Set the pin to digital I/O 13
+
 void setup(void) 
 {
   
@@ -40,4 +44,17 @@ void loop(void)
   //Serial.print("Compass Heading: ");
   Serial.println(heading);
   delay(5);
+
+  //let's listen for some data 
+    if (Serial.available()) 
+   { // If data is available to read,
+     val = Serial.read(); // read it and store it in val
+   }
+   if (val == '1') 
+   { // If 1 was received
+     digitalWrite(ledPin, HIGH); // turn the LED on
+   } else {
+     digitalWrite(ledPin, LOW); // otherwise turn it off
+   }
+   delay(1); // Wait 5 milliseconds for next reading
 }

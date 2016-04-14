@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{B9329322-6C7F-DA19-461C-A95E50599428}") = "touchosc_integration", "Assembly-CSharp.csproj", "{B13C0F95-D3C2-4B77-583C-513232B6BF38}"
+EndProject
+Project("{B9329322-6C7F-DA19-461C-A95E50599428}") = "touchosc_integration", "Assembly-CSharp-Editor.csproj", "{EF056999-C1F8-E690-7FAB-B723B728A1B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B13C0F95-D3C2-4B77-583C-513232B6BF38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13C0F95-D3C2-4B77-583C-513232B6BF38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13C0F95-D3C2-4B77-583C-513232B6BF38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13C0F95-D3C2-4B77-583C-513232B6BF38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF056999-C1F8-E690-7FAB-B723B728A1B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF056999-C1F8-E690-7FAB-B723B728A1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF056999-C1F8-E690-7FAB-B723B728A1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF056999-C1F8-E690-7FAB-B723B728A1B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

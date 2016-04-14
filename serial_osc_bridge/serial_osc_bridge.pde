@@ -1,4 +1,3 @@
-
 import oscP5.*;
 import netP5.*;
 import processing.serial.*; 
@@ -9,16 +8,16 @@ Serial myPort; //let's get that data flowing out of arudio to processing by
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
-int receiveAtPort = 9000; //get the info back from wekinator 
+int receiveAtPort = 12000; //get the info  back from wekinator 
 int sendToPort= 6448;   //send info to wekinator 
-
+float numFromWekinator = 0; 
 int lf = 10;    // Linefeed in ASCII.  
 float num =0.0;  //this variable holds the change for the sensor 
 String myString = null; //all data from arduino 
 
 
 void setup() {
-  size(400,400);
+  size(650,650);
   frameRate(25);
 
   /* start oscP5, listening for incoming messages at receiveAtPort address, 9000 */
@@ -36,7 +35,7 @@ void setup() {
   //let's list the serial ports we have 
   println(Serial.list()); 
 
-  myPort = new Serial(this, "/dev/tty.usbmodem1411",9600); //pick the right port and
+  myPort = new Serial(this, "/dev/cu.usbmodem1421",9600); //pick the right port and
   //set the speed were' going to check the port at. If you ever see just noise in the arduino serial montior
   // output window, check to make sure the port speed matches the arduino sketch settings too. 
   //Other common effups are to not have the arduino serial monitor closed when trying to read it on 
@@ -54,13 +53,13 @@ void draw() {
     if (myString != null) { //if we did that successfully 
     //print(myString);  // Prints String 
     num=float(myString);  // Converts and prints int
-    println(num); //prints coverted data as a number verses as a word. 
+   // println(num); //prints coverted data as a number verses as a word. 
     }
   }
   myPort.clear(); // clean up the port so it's ready for new data  
  
   //set up a new message 
-  OscMessage myMessage = new OscMessage("/compass");
+  OscMessage myMessage = new OscMessage("/processing_output/");
   //add the sensor value to it 
   myMessage.add(num);
   //sling it like a fry cook over to wekinator 
@@ -69,12 +68,19 @@ void draw() {
   //if you just print it, you'll see if you're sending and i or an f or a s but that's just
   //short hand for the type of data. To see the actual values, you'll need this function. 
   //println(myMessage.arguments()); 
+
+  //let's just make sure our LED is off in arduino. spoilers, this is how to send 
+  //serial from processing back to arduino. :) 
+  sendSerial('0'); 
+  
+   fill(255); 
+   ellipse(width/2, height/2, numFromWekinator*300, numFromWekinator*300); 
 }
 
 //you could also do this on an event like mousePressed 
 void mousePressed() {
   /* in the following different ways of creating osc messages are shown by example */
-  OscMessage myMessage = new OscMessage("/compass");
+  OscMessage myMessage = new OscMessage("/processing_output/");
   
   myMessage.add(num); /* add an int to the osc message */
   //myMessage.add(12.34); /* add a float to the osc message */
@@ -85,6 +91,9 @@ void mousePressed() {
   /* send the message */
   oscP5.send(myMessage, myRemoteLocation); 
   println(myMessage.arguments());
+
+  //now let's go the other way back to arduino 
+  sendSerial('1'); 
 }
 
 
@@ -94,4 +103,21 @@ void oscEvent(OscMessage theOscMessage) {
   print("### received an osc message.");
   print(" addrpattern: "+theOscMessage.addrPattern());
   println(" typetag: "+theOscMessage.typetag());
+  Object[] vals = theOscMessage.arguments(); 
+  numFromWekinator = (Float)vals[0]; 
+  println(numFromWekinator, "I am the osc val from wekinator"); 
+ 
 }
+
+//I just made up this function - it's not special. It's a multi-purose sender 
+void sendSerial(char valueToSend){
+  myPort.write(valueToSend);          
+  
+} 
+void stop(){
+  myPort.stop(); 
+  
+  oscP5.stop(); 
+  
+  
+} 
